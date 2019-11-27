@@ -28,7 +28,7 @@ All requests to the API are relative ```http://localhost:port```
             <th>Endpoint</th>
             <th>Description</th>
             <th>Parameters</th>
-            <th>Success Response/Statuc Code</th>
+            <th>Success Response/Status Code</th>
         </tr>
     </thead>
     <tbody>
