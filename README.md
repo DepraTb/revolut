@@ -2,8 +2,8 @@
 Design and implement a RESTful API (including data model and the backing implementation) for
 money transfers between accounts.
 ### 1. How to start? ###
-1. Run `gradlew clean build` to compile application and run tests on Window and `./gradlew clean build` on Linux
-2. Go to `build/distributions` and ```unpack transfer-service.tar``` or `transfer-service.zip`
+1. In project directory run `gradlew clean build` on Windows or `./gradlew clean build` on UN*X to compile application and run tests.
+2. Go to `build/distributions` and `unpack transfer-service.tar` or `transfer-service.zip`
 3. Go to `transfer-service/bin` and run there `transfer-service.bat` or `./transfer-service`.
 It will create H2 file database in the project directory and will start server on 7070 port (if you want to change the port, you should change `applicationDefaultJvmArgs` in `gradle.build`
 and rebuild the application as in the first step).
@@ -28,42 +28,45 @@ All requests to the API are relative ```http://localhost:port```
             <th>Endpoint</th>
             <th>Description</th>
             <th>Parameters</th>
-            <th>Success Response</th>
-            <th>Success Response Status</th>
+            <th>Success Response/Statuc Code</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><code>POST /account/:balance</code></td>
+            <td><code>POST</code><br/><code>/account/:balance</code></td>
             <td>Creates new account with specified balance</td>
             <td><code>:balance</code> - balance on account</td>
-            <td><pre>{"id": id, "balance": balance}</pre></td>
-            <td>201 CREATED</td>
-        </tr>
+            <td><pre>
+{
+    "id": id,
+    "balance": balance
+}</pre><br/>201 CREATED
         <tr>
-            <td><code>GET /account/:id</code></td>
+            <td><code>GET</code><br/><code>/account/:id</code></td>
             <td>Returns account by id</td>
             <td><code>:id</code> - account's id</td>
-            <td><pre>{"id": id, "balance": balance}</pre></td>
-            <td>200 OK</td>
+            <td><pre>
+{
+    "id": id,
+    "balance": balance
+}</pre><br/>200 OK
+	    </td>
         </tr>
         <tr>
-            <td><code>DELETE /account/:id</code></td>
+	    <td><code>DELETE</code><br/><code>/account/:id</code></td>
             <td>Deletes account by id</td>
             <td><code>:id</code> - account's id</td>
-            <td>-</td>
-            <td>204 NO CONTENT</td>
+	    <td>-</br>204 NO CONTENT</td>
         </tr>
         <tr>
-            <td><code>POST /account/:fromId/transfer/:toId/:amount</code></td>
+            <td><code>POST</code><br/><code>/account/:fromId/transfer/:toId/:amount</code></td>
             <td>Transfers specified amount of money from account to another account</td>
             <td>
             	<br/><code>:fromId</code> - account's id that balance will be reduced
                 <br/><code>:toId</code> - account's id that balance will be increased
                 <br/><code>:amount</code> - amount of money which will be transferred
             </td>
-            <td>-</td>
-            <td>204 NO CONTENT</td>
+	    <td>-</br>204 NO CONTENT</td>
         </tr>
     </tbody>
 </table>
