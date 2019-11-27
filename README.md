@@ -2,22 +2,22 @@
 Design and implement a RESTful API (including data model and the backing implementation) for
 money transfers between accounts.
 ### 1. How to start? ###
-1. In project directory run `gradlew clean build` on Windows or `./gradlew clean build` on UN*X to compile application and run tests.
+1. In project directory run `gradlew clean build` on Windows or `./gradlew clean build` on UN*X to compile, run tests and package the application.
 2. Go to `build/distributions` and unpack `transfer-service.tar` or `transfer-service.zip`
 3. Go to `transfer-service/bin` and run there `transfer-service.bat` or `./transfer-service`.
 It will start server on 7070 port (if you want to change the port, you should change `applicationDefaultJvmArgs` in `gradle.build`
 and rebuild the application as in the first step).
 
-### 2. Solution details ###
+### 2. Implementation details ###
 #### Third-party libraries ####
-1. [Javalin](https://javalin.io/) - Simple web framework
+1. [Javalin](https://javalin.io/) - A simple web framework
 2. [H2](http://www.h2database.com/html/main.html) - Java SQL database
-3. [Flyway](https://flywaydb.org) - Database migration tool
+3. [Flyway](https://flywaydb.org) - A database migration tool
 4. [Guice](https://github.com/google/guice) - DI framework
-5. [Lombok](https://projectlombok.org) - Annotation-based code generator
+5. [Lombok](https://projectlombok.org) - An annotation-based code generator
 #### Problems ####
-1. H2 is used as data storage. This causes the file system to become clogged with database stuff (doesn't take up much space, because when the application starts and stops, flyway is clearing the data).
-2. Application does not support transaction.
+1. H2 is used as data storage. This causes a file system to become clogged with database stuff (doesn't take up much space, because when the application starts and stops, flyway is clearing the data).
+2. The application does not support transactions.
 
 ### 3. API ###
 All requests to the API are relative ```http://localhost:port```
@@ -56,7 +56,7 @@ All requests to the API are relative ```http://localhost:port```
 	    <td><code>DELETE</code><br/><code>/account/:id</code></td>
             <td>Deletes account by id</td>
             <td><code>:id</code> - account's id</td>
-	    <td>-</br>204 NO CONTENT</td>
+	    <td>204 NO CONTENT</td>
         </tr>
         <tr>
             <td><code>POST</code><br/><code>/account/:fromId/transfer/:toId/:amount</code></td>
@@ -66,7 +66,7 @@ All requests to the API are relative ```http://localhost:port```
                 <br/><code>:toId</code> - account's id that balance will be increased
                 <br/><code>:amount</code> - amount of money which will be transferred
             </td>
-	    <td>-</br>204 NO CONTENT</td>
+	    <td>204 NO CONTENT</td>
         </tr>
     </tbody>
 </table>
