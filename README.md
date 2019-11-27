@@ -3,9 +3,9 @@ Design and implement a RESTful API (including data model and the backing impleme
 money transfers between accounts.
 ### 1. How to start? ###
 1. In project directory run `gradlew clean build` on Windows or `./gradlew clean build` on UN*X to compile application and run tests.
-2. Go to `build/distributions` and `unpack transfer-service.tar` or `transfer-service.zip`
+2. Go to `build/distributions` and unpack `transfer-service.tar` or `transfer-service.zip`
 3. Go to `transfer-service/bin` and run there `transfer-service.bat` or `./transfer-service`.
-It will create H2 file database in the project directory and will start server on 7070 port (if you want to change the port, you should change `applicationDefaultJvmArgs` in `gradle.build`
+It will start server on 7070 port (if you want to change the port, you should change `applicationDefaultJvmArgs` in `gradle.build`
 and rebuild the application as in the first step).
 
 ### 2. Solution details ###
