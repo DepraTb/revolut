@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.projectlombok:lombok:1.18.10'
+    compile 'org.slf4j:slf4j-simple:1.7.28'
+    compile 'com.h2database:h2:1.4.199'
+    compile 'org.flywaydb:flyway-core:6.0.8'
+    compile 'io.javalin:javalin:3.6.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+    compile 'com.google.inject:guice:4.2.2'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:3.1.0'
+}
+
+mainClassName = 'com.revolut.challenge.App'
+applicationDefaultJvmArgs = [
+        '-Dhttp.port=7070'
+]
