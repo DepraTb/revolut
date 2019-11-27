@@ -31,7 +31,7 @@ public class AccountLockTest {
         executorService = Executors.newFixedThreadPool(2);
     }
 
-    @Test(timeout = 5000)
+    @Test(timeout = 20000)
     public void testLocks()  {
         List<Callable<Object>> tasks = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
