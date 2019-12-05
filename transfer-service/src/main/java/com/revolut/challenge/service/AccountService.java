@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.google.common.collect.Lists;
 import com.revolut.challenge.repository.AccountRepository;
 import com.revolut.challenge.domain.Account;
 import com.revolut.challenge.exception.InvalidTransferException;
@@ -70,8 +71,7 @@ public class AccountService {
             from.setBalance(from.getBalance().subtract(amount));
             to.setBalance(to.getBalance().add(amount));
 
-            accountRepository.update(from);
-            accountRepository.update(to);
+            accountRepository.updateTransactional(Lists.newArrayList(from, to));
         } finally {
             lockFrom.unlock();
             lockTo.unlock();
