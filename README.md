@@ -3,10 +3,7 @@ Design and implement a RESTful API (including data model and the backing impleme
 money transfers between accounts.
 ### 1. How to start? ###
 1. In project directory run `gradlew clean build` on Windows or `./gradlew clean build` on UN*X to compile, run tests and package the application.
-2. Go to `build/distributions` and unpack `transfer-service.tar` or `transfer-service.zip`
-3. Go to `transfer-service/bin` and run there `transfer-service.bat` or `./transfer-service`.
-It will start server on 7070 port (if you want to change the port, you should change `applicationDefaultJvmArgs` in `gradle.build`
-and rebuild the application as in the first step).
+2. Go to `build/libs` and run the application via `java -jar transfer-service.jar`. It will start server on 8080 port (if you want to change the port, you should run application via `java -Dhttp.port=other_port_number -jar transfer-service.jar`, where `other_port_number` - number of http port which you prefer).
 
 ### 2. Implementation details ###
 #### Third-party libraries ####
@@ -17,7 +14,7 @@ and rebuild the application as in the first step).
 5. [Lombok](https://projectlombok.org) - An annotation-based code generator
 #### Problems ####
 1. H2 is used as data storage. This causes a file system to become clogged with database stuff (doesn't take up much space, because when the application starts and stops, flyway is clearing the data).
-2. The application does not support transactions.
+2. The application supports transactions only on DAO-level.
 
 ### 3. API ###
 All requests to the API are relative ```http://localhost:port```
