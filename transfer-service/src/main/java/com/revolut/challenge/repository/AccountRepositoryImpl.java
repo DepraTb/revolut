@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -20,6 +21,7 @@ import lombok.SneakyThrows;
 @Singleton
 public class AccountRepositoryImpl implements AccountRepository {
 
+    private static final String UPDATE_ACCOUNT_SQL = "UPDATE account SET balance=? WHERE id=?";
     private final DataSource dataSource;
 
     @Inject
@@ -121,7 +123,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account update(Account account) {
         return execute(
-                "UPDATE account SET balance=? WHERE id=?",
+                UPDATE_ACCOUNT_SQL,
                 stmt -> {
                     try {
                         stmt.setBigDecimal(1, account.getBalance());
@@ -144,6 +146,42 @@ public class AccountRepositoryImpl implements AccountRepository {
                 },
                 dataSource.getConnection()
         );
+    }
+
+    @SneakyThrows
+    public void updateTransactional(List<Account> toUpdate) throws AccountNotFoundException {
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+
+            for (Account account : toUpdate) {
+                try (PreparedStatement updateStmt = connection.prepareStatement(UPDATE_ACCOUNT_SQL)) {
+                    long id = account.getId();
+
+                    updateStmt.setBigDecimal(1, account.getBalance());
+                    updateStmt.setLong(2, id);
+                    updateStmt.executeUpdate();
+
+                    if (updateStmt.getUpdateCount() != 1) {
+                        throw new AccountNotFoundException(id);
+                    } else if (updateStmt.getUpdateCount() > 1) {
+                        throw new SQLException("Several rows were deleted.");
+                    }
+                }
+            }
+
+            connection.commit();
+        } catch (Exception e ) {
+            if (connection != null) {
+                connection.rollback();
+                throw e;
+            }
+        } finally {
+            if (connection != null) {
+                connection.setAutoCommit(true);
+            }
+        }
     }
 
     @SneakyThrows
