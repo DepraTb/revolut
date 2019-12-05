@@ -24,6 +24,14 @@ dependencies {
 }
 
 mainClassName = 'com.revolut.challenge.App'
-applicationDefaultJvmArgs = [
-        '-Dhttp.port=7070'
-]
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
