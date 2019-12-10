@@ -49,25 +49,25 @@ public class AccountService {
         Lock lockFrom = accountLocks.computeIfAbsent(fromId, ignored -> new ReentrantLock());
         Lock lockTo = accountLocks.computeIfAbsent(toId, ignored -> new ReentrantLock());
 
-        boolean gotAllLocks = false;
-        do {
-            if (lockFrom.tryLock()) {
-                if (lockTo.tryLock()) {
-                    gotAllLocks = true;
-                } else {
-                    lockFrom.unlock();
-                }
-            }
-        } while (!gotAllLocks);
-
-        Account from = accountRepository.find(fromId);
-        if (from.getBalance().compareTo(amount) < 0) {
-            throw new InvalidTransferException("Not enough money on balance.");
-        }
-
-        Account to = accountRepository.find(toId);
-
         try {
+            boolean gotAllLocks = false;
+            do {
+                if (lockFrom.tryLock()) {
+                    if (lockTo.tryLock()) {
+                        gotAllLocks = true;
+                    } else {
+                        lockFrom.unlock();
+                    }
+                }
+            } while (!gotAllLocks);
+
+            Account from = accountRepository.find(fromId);
+            if (from.getBalance().compareTo(amount) < 0) {
+                throw new InvalidTransferException("Not enough money on balance.");
+            }
+
+            Account to = accountRepository.find(toId);
+
             from.setBalance(from.getBalance().subtract(amount));
             to.setBalance(to.getBalance().add(amount));
 
